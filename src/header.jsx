@@ -22,7 +22,6 @@ module.exports = React.createClass({
       </span>
     </div> 
   }, 
-
   handleClick: function(){
     // send value of text input to firebase
     this.props.itemsStore.push({
@@ -32,7 +31,6 @@ module.exports = React.createClass({
 
     this.setState({text: ''}); 
   },
-
   handleInputChange : function(event){
     //whatever this event to just happened to, give me a DOM node reference to it
        this.setState({ text: event.target.value });
