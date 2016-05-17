@@ -13,12 +13,15 @@ var App = React.createClass({
   // look to state,,, might have to return initial state 
   getInitialState: function(){
     return {
-      items: {}
+      items: {},
+      loaded: false
     }
   },
   componentWillMount: function(){
-    this.bindAsObject(new Firebase(rootUrl + 'items/'), 'items');
-    // this.state.items => {}
+    fb = new Firebase(rootUrl + 'items/'); 
+    this.bindAsObject(fb, 'items');
+    fb.on('value', this.handleDataLoaded); 
+    // Firebase emits value as soon as it sees data from server
   },
   // whenever data changes, this.state changes and causes re-render of component
   render: function() {
@@ -28,9 +31,14 @@ var App = React.createClass({
           Todo List
         </h2>
         <Header itemsStore={this.firebaseRefs.items} /> 
+        <div className = {"content " + (this.state.loaded ? 'loaded' : '')}>
         <List items={this.state.items}  /> 
+        </div>
       </div>
     </div>
+  }, 
+  handleDataLoaded: function(){
+     this.setState({loaded: true});  
   }
 });
 
